@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <link rel="stylesheet" href="{{ asset('assets/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <script src="https://kit.fontawesome.com/66aa7c98b3.js" crossorigin="anonymous"></script>
 </head>
 
@@ -23,10 +23,10 @@
                         <span>Nama</span><span>: <?= $nama ?></span>
                     </div>
                     <div class="row">
-                        <span>Kelas</span><span>: <?= $kelas ?></span>
+                        <span>NPM</span><span>: <?= $npm ?></span>
                     </div>
                     <div class="row">
-                        <span>NPM</span><span>: <?= $npm ?></span>
+                        <span>Kelas</span><span>: <?= $kelas ?></span>
                     </div>
                 </h2>
             </div>
