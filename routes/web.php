@@ -19,7 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/profile/{nama}/{kelas}/{npm}', [ProfileController::class, 'profile']);
+//Route::get('/profile/{nama}/{kelas}/{npm}', [ProfileController::class, 'profile']);
 
 Route::get('/user/profile', [UserController::class, 'profile']);
 
