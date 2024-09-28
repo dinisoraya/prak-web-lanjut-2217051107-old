@@ -26,7 +26,7 @@
                         <span>NPM</span><span>: <?= $npm ?></span>
                     </div>
                     <div class="row">
-                        <span>Kelas</span><span>: <?= $kelas ?></span>
+                        <span>Kelas</span><span>: <?= $nama_kelas ?? 'Kelas tidak ditemukan' ?></span>
                     </div>
                 </h2>
             </div>
