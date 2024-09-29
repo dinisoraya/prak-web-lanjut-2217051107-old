@@ -8,6 +8,15 @@ use App\Models\UserModel;
 
 class UserController extends Controller
 {
+    public $userModel;
+    public $kelasModel;
+
+    public function __construct()
+    {
+        $this->userModel = new UserModel();
+        $this->kelasModel = new Kelas();
+    }
+    
     public function profile($nama = '', $kelas = '', $npm = '')
 {
     $data = [
@@ -20,9 +29,16 @@ class UserController extends Controller
 }
 
 public function create(){
-    return view('create_user', [
-        'kelas' => Kelas::all(),
-    ]);
+    $kelasModel = new Kelas();
+
+    $kelas = $kelasModel->getKelas();
+
+    $data = [
+        'title' => 'Create User',
+        'kelas' => $kelas,
+    ];
+
+    return view('create_user', $data);
 }
 
 public function store(Request $request)
