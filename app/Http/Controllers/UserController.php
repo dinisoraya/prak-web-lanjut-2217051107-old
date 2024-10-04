@@ -8,46 +8,71 @@ use App\Models\UserModel;
 
 class UserController extends Controller
 {
-    public function profile($nama = '', $kelas = '', $npm = '')
-{
-    $data = [
-        'nama' => $nama,
-        'kelas' => $kelas,
-        'npm' => $npm
-    ];
+    public $userModel;
+    public $kelasModel;
 
-    return view('profile', $data);
-}
+    public function __construct()
+    {
+        $this->userModel = new UserModel();
+        $this->kelasModel = new Kelas();
+    }
 
-public function create(){
-    return view('create_user', [
-        'kelas' => Kelas::all(),
-    ]);
-}
+    //     public function profile($nama = '', $kelas = '', $npm = '')
+// {
+//     $data = [
+//         'nama' => $nama,
+//         'kelas' => $kelas,
+//         'npm' => $npm
+//     ];
 
-public function store(Request $request)
-{
-    $validatedData = $request->validate([
-        'nama' => 'required|string|max:255',
-        'npm' => 'required|string|size:10',
-        'kelas_id' => 'required|exists:kelas,id',
-    ], [
-        'nama.required' => 'Nama tidak boleh kosong.',
-        'nama.max' => 'Nama tidak boleh lebih dari 255 karakter.',
-        'npm.required' => 'NPM tidak boleh kosong.',
-        'npm.size' => 'NPM harus terdiri dari 10 digit.',
-    ]);
+    //     return view('profile', $data);
+// }
 
-    $user = UserModel::create($validatedData);
+    public function index()
+    {
+        $data = [
+            'title' => 'List User',
+            'users' => $this->userModel->getUser(),
+        ];
 
-    $user->load('kelas');
+        return view('list_user', $data);
+    }
 
-    return view('profile', [
-        'nama' => $user->nama,
-        'npm' => $user->npm,
-        'nama_kelas' => $user->kelas->nama_kelas ?? 'Kelas tidak ditemukan',
-    ]);
-}
+    public function create()
+    {
+        $kelasModel = new Kelas();
+
+        $kelas = $kelasModel->getKelas();
+
+        $data = [
+            'title' => 'Create User',
+            'kelas' => $kelas,
+        ];
+
+        return view('create_user', $data);
+    }
+
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'nama' => 'required|string|max:255',
+            'npm' => 'required|string|size:10',
+            'kelas_id' => 'required|exists:kelas,id',
+        ], [
+            'nama.required' => 'Nama tidak boleh kosong.',
+            'nama.max' => 'Nama tidak boleh lebih dari 255 karakter.',
+            'npm.required' => 'NPM tidak boleh kosong.',
+            'npm.size' => 'NPM harus terdiri dari 10 digit.',
+        ]);
+
+        $this->userModel->create([
+            'nama' => $request->input('nama'),
+            'npm' => $request->input('npm'),
+            'kelas_id' => $request->input('kelas_id'),
+        ]);
+    
+        return redirect()->to('/user');
+    }
 
 
 
