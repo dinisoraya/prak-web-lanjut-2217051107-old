@@ -2,6 +2,10 @@
 
 @section ('content')
 
+<div class="mb-3 mt-2 m-3">
+    <a href="{{ route('user.create') }}" class="btn btn-success">Tambah User</a>
+</div>
+
 <table class="table">
     <thead>
         <tr>
