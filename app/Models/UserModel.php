@@ -12,11 +12,13 @@ class UserModel extends Model
     protected $table = 'user';
     protected $guarded = ['id'];
 
-    public function getUser(){
+    public function getUser($id = null)
+    {
         return $this->join('kelas', 'kelas.id', '=', 'user.kelas_id')->select('user.*', 'kelas.nama_kelas as nama_kelas')->get();
     }
 
-    public function kelas(){
+    public function kelas()
+    {
         return $this->belongsTo(Kelas::class, 'kelas_id');
     }
 }
