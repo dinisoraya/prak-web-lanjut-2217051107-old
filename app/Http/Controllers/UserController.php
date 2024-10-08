@@ -86,14 +86,14 @@ class UserController extends Controller
         return redirect()->to('/user/list')->with('success', 'User berhasil ditambahkan');
     }
 
-    // public function show ($id) {
-    //     $user = $this->userModel->getUser($id);
-    //     $data = [
-    //         'title' => 'Profile',
-    //         'user' => $user,
-    //     ];
+    public function show ($id) {
+        $user = $this->userModel->getUser($id);
+        $data = [
+            'title' => 'Profile',
+            'user' => $user,
+        ];
 
-    //     return view('profile', $data);
-    // }
+        return view('profile', $data);
+    }
 
 }

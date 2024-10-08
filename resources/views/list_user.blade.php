@@ -14,7 +14,7 @@
             <th scope="col">NPM</th>
             <th scope="col">Kelas</th>
             <th scope="col">Foto</th>
-            <!-- <th scope="col">Aksi</th> -->
+            <th scope="col">Aksi</th>
         </tr>
     </thead>
     <tbody class="table-group-divider">
@@ -29,21 +29,21 @@ foreach ($users as $user) {
             <td>
                 <img src="{{ asset('upload/img/' . $user->foto) }}" alt="Foto User" width="100">
             </td>
-            <!-- <td>
+            <td>
                 <!-- View -->
-                <!-- <a href="" class="btn btn-primary btn-sm">View</a>
+                <a href="{{ route('users.show', $user->id)}}" class="btn btn-primary btn-sm">View</a>
 
                 <!-- Edit -->
-                <!-- <a href="" class="btn btn-warning btn-sm">Edit</a> -->
+                <a href="" class="btn btn-warning btn-sm">Edit</a>
 
                 <!-- Delete -->
-                <!-- <form action="" method="POST" style="display:inline-block;">
+                <form action="" method="POST" style="display:inline-block;">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger btn-sm"
                         onclick="return confirm('Apakah Anda yakin ingin menghapus user ini?')">Delete</button>
                 </form>
-            </td> -->
+            </td> 
         </tr>
         <?php
 }
