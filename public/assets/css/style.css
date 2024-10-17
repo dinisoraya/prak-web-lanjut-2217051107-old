@@ -116,34 +116,32 @@ form div {
     padding-bottom: 50px;
 }
 
-.content .detail {
+.detail {
+    padding-top: 250px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    text-align: center;
 }
 
-.content .detail h2 {
+.detail h2 {
     color: black;
     font-size: 1.6em;
     font-weight: bold;
 }
 
-.content .detail .row {
-    display: flex;
-    justify-content: flex-start;
-    width: 100%;
+.detail .row {
+    display: grid;
+    grid-template-columns: 100px 1fr;
     margin-bottom: 5px;
 }
 
-.content .detail .row span:first-child {
-    width: 100px;
-    font-size: 0.9em;
-    font-weight: bold;
-    color: black;
+.detail .row span:first-child {
+    text-align: left; 
 }
 
-.content .detail .row span:last-child {
-    font-size: 0.9em;
-    color: black;
+.detail .row span:last-child {
+    text-align: left; 
 }
+

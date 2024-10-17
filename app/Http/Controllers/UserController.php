@@ -58,22 +58,42 @@ class UserController extends Controller
             'nama' => 'required|string|max:255',
             'npm' => 'required|string|size:10',
             'kelas_id' => 'required|exists:kelas,id',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ], [
             'nama.required' => 'Nama tidak boleh kosong.',
             'nama.max' => 'Nama tidak boleh lebih dari 255 karakter.',
             'npm.required' => 'NPM tidak boleh kosong.',
             'npm.size' => 'NPM harus terdiri dari 10 digit.',
+            'foto.image' => 'File harus berupa gambar.',
+            'foto.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',
         ]);
 
-        $this->userModel->create([
-            'nama' => $request->input('nama'),
-            'npm' => $request->input('npm'),
-            'kelas_id' => $request->input('kelas_id'),
-        ]);
-    
-        return redirect()->to('/user');
+        if ($request->hasFile('foto')) {
+            $foto = $request->file('foto');
+            $fotoPath = time() . '_' . $foto->getClientOriginalName();
+            $foto->move(public_path('upload/img'), $fotoPath);
+        } else{
+            $fotoPath = null;
+        }
+
+            $this->userModel->create([
+                'nama' => $request->input('nama'),
+                'npm' => $request->input('npm'),
+                'kelas_id' => $request->input('kelas_id'),
+                'foto' => $fotoPath,
+            ]);
+
+        return redirect()->to('/user/list')->with('success', 'User berhasil ditambahkan');
     }
 
+    public function show ($id) {
+        $user = $this->userModel->getUser($id);
+        $data = [
+            'title' => 'Profile',
+            'user' => $user,
+        ];
 
+        return view('profile', $data);
+    }
 
 }
