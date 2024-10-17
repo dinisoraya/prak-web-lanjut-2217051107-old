@@ -19,9 +19,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Route::get('/profile/{nama}/{kelas}/{npm}', [ProfileController::class, 'profile']);
+// Route::get('/profile/{nama}/{kelas}/{npm}', [ProfileController::class, 'profile']);
 
-//Route::get('/user/profile', [UserController::class, 'profile']);
+// Route::get('/user/profile', action: [UserController::class, 'profile']);
 
 Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
 
