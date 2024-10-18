@@ -72,28 +72,86 @@ class UserController extends Controller
             $foto = $request->file('foto');
             $fotoPath = time() . '_' . $foto->getClientOriginalName();
             $foto->move(public_path('upload/img'), $fotoPath);
-        } else{
+        } else {
             $fotoPath = null;
         }
 
-            $this->userModel->create([
-                'nama' => $request->input('nama'),
-                'npm' => $request->input('npm'),
-                'kelas_id' => $request->input('kelas_id'),
-                'foto' => $fotoPath,
-            ]);
+        $this->userModel->create([
+            'nama' => $request->input('nama'),
+            'npm' => $request->input('npm'),
+            'kelas_id' => $request->input('kelas_id'),
+            'foto' => $fotoPath,
+        ]);
 
         return redirect()->to('/user/list')->with('success', 'User berhasil ditambahkan');
     }
 
-    public function show ($id) {
-        $user = $this->userModel->getUser($id);
-        $data = [
-            'title' => 'Profile',
-            'user' => $user,
-        ];
-
-        return view('profile', $data);
+    public function edit($id)
+    {
+        $user = UserModel::findOrFail($id);
+        $kelasModel = new Kelas();
+        $kelas = $kelasModel->getKelas();
+        $title = 'Edit User';
+        return view('edit_user', compact('user', 'kelas', 'title'));
     }
 
+    public function update(Request $request, $id)
+    {
+        $user = UserModel::findOrFail($id);
+        // Update data user lainnya
+        $user->nama = $request->nama;
+        $user->npm = $request->npm;
+        $user->kelas_id = $request->kelas_id;
+        // Cek apakah ada file foto yang di-upload
+        if ($request->hasFile('foto')) {
+            // Ambil nama file foto lama dari database
+            $oldFilename = $user->foto;
+            // Hapus foto lama jika ada
+            if ($oldFilename) {
+                $oldFilePath = public_path('upload/img/' . $oldFilename);
+                // Cek apakah file lama ada dan hapus
+                if (file_exists($oldFilePath)) {
+                    unlink($oldFilePath); // Hapus foto lama dari folder
+                }
+            }
+            // Simpan file baru dengan storeAs
+            // Simpan file baru dengan storeAs ke public/upload/img
+            $file = $request->file('foto');
+            $newFilename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('upload/img'), $newFilename); // Menyimpan file ke public/upload/img
+// Update nama file di database
+            $user->foto = $newFilename;
+
+        }
+        // Simpan perubahan pada user
+        $user->save();
+        return redirect()->route('user.list')->with('success', 'User Berhasil di Update');
+    }
+    public function destroy($id)
+    {
+        $user = UserModel::findOrFail($id);
+        $user->delete();
+        return redirect()->to('/user/list')->with('success', 'User Berhasil di Hapus');
+    }
+
+    // public function show($id)
+    // {
+    //     $user = $this->userModel->getUser($id);
+    //     $data = [
+    //         'title' => 'Profile',
+    //         'user' => $user,
+    //     ];
+
+    //     return view('profile', $data);
+    // }
+
+    public function show($id){
+        $user = UserModel::findOrFail($id);
+        $kelas = Kelas::find($user->kelas_id); // Jika ingin menampilkan nama kelas
+        return view('profile', [
+            'title' => 'Profile',
+            'user' => $user,
+            'nama_kelas' => $kelas ? $kelas->nama_kelas : null, // Pastikan nama kelas ada, jika tidak tampilkan null
+        ]);
+    }
 }

@@ -17,7 +17,7 @@
                 <span>NPM</span><span>: {{$user->npm}}</span>
             </div>
             <div class="row">
-                <span>Kelas</span><span>: {{$user->nama_kelas ?? 'Kelas tidak ditemukan'}}</span>
+                <span>Kelas</span><span>: {{$nama_kelas ?? 'Kelas tidak ditemukan' }}</span>
             </div>
         </h2>
     </div>
