@@ -27,7 +27,7 @@ Route::get('/user/create', [UserController::class, 'create'])->name('user.create
 
 Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
 
-Route::get('/user/list', [UserController::class, 'index'])->name('user.list');
+Route::get('/', [UserController::class, 'index'])->name('user.list');
 
 Route::get('/user/show/{id}', [UserController::class, 'show'])->name('users.show');
 Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');

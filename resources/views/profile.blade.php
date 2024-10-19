@@ -1,11 +1,9 @@
 @extends('layouts.app') 
 @section('content')
+
 <div class="card">
-    <!-- <div class="img-bx">
-            <img src="{{ asset('assets/img/diginigi.jpg') }}" alt="img" />
-        </div> -->
     <div class="img-bx">
-        <img src="{{ asset('upload/img/' . $user->foto) }}" alt="img" />
+        <img src="{{ asset('storage/uploads/' . $user->foto) }}" alt="img" />
     </div>
     <div class="content"></div>
     <div class="detail">
@@ -23,4 +21,5 @@
     </div>
 </div>
 </div>
+
 @endsection

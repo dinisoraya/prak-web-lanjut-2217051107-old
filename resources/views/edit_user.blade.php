@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
 
 <div>
@@ -50,7 +49,7 @@
                 <label for="foto" class="form-label">Foto</label>
                 <input class="form-control" type="file" id="foto" name="foto">
                 @if ($user->foto)
-                    <img src="{{ asset('upload/img/' . $user->foto) }}" alt="Foto User" width="100">
+                    <img src="{{ asset('storage/uploads/' . $user->foto) }}" alt="Foto User" width="100">
                 @endif
             </div>
         </div>
@@ -58,3 +57,5 @@
         <a href="{{ route(name: 'user.list') }}" class="btn btn-danger">Kembali</a>
     </form>
 </div>
+
+@endsection
