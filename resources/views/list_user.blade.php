@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section ('content')
 
 <div>
@@ -28,7 +27,7 @@ foreach ($users as $user) {
                 <td>{{ $user->npm }}</td>
                 <td>{{ $user->nama_kelas }}</td>
                 <td>
-                    <img src="{{ asset('upload/img/' . $user->foto) }}" alt="Foto User" width="100">
+                    <img src="{{ asset('storage/uploads/' . $user->foto) }}" alt="Foto User" width="100">
                 </td>
                 <td>
                     <div class="action-buttons">
@@ -55,4 +54,5 @@ foreach ($users as $user) {
         </tbody>
     </table>
 </div>
+
 @endsection

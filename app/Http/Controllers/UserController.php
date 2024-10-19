@@ -71,7 +71,8 @@ class UserController extends Controller
         if ($request->hasFile('foto')) {
             $foto = $request->file('foto');
             $fotoPath = time() . '_' . $foto->getClientOriginalName();
-            $foto->move(public_path('upload/img'), $fotoPath);
+            // $foto->move(public_path('upload/img'), $fotoPath);
+            $foto->storeAs('uploads', $fotoPath); 
         } else {
             $fotoPath = null;
         }
@@ -83,7 +84,7 @@ class UserController extends Controller
             'foto' => $fotoPath,
         ]);
 
-        return redirect()->to('/user/list')->with('success', 'User berhasil ditambahkan');
+        return redirect()->to('/')->with('success', 'User berhasil ditambahkan');
     }
 
     public function edit($id)
@@ -98,32 +99,23 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = UserModel::findOrFail($id);
-        // Update data user lainnya
         $user->nama = $request->nama;
         $user->npm = $request->npm;
         $user->kelas_id = $request->kelas_id;
-        // Cek apakah ada file foto yang di-upload
         if ($request->hasFile('foto')) {
-            // Ambil nama file foto lama dari database
             $oldFilename = $user->foto;
-            // Hapus foto lama jika ada
             if ($oldFilename) {
-                $oldFilePath = public_path('upload/img/' . $oldFilename);
-                // Cek apakah file lama ada dan hapus
+                $oldFilePath = public_path('storage/uploads/' . $oldFilename);
                 if (file_exists($oldFilePath)) {
-                    unlink($oldFilePath); // Hapus foto lama dari folder
+                    unlink($oldFilePath); 
                 }
             }
-            // Simpan file baru dengan storeAs
-            // Simpan file baru dengan storeAs ke public/upload/img
             $file = $request->file('foto');
             $newFilename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('upload/img'), $newFilename); // Menyimpan file ke public/upload/img
-// Update nama file di database
+            $file->storeAs('uploads', $newFilename, 'public');
             $user->foto = $newFilename;
 
         }
-        // Simpan perubahan pada user
         $user->save();
         return redirect()->route('user.list')->with('success', 'User Berhasil di Update');
     }
@@ -131,19 +123,8 @@ class UserController extends Controller
     {
         $user = UserModel::findOrFail($id);
         $user->delete();
-        return redirect()->to('/user/list')->with('success', 'User Berhasil di Hapus');
+        return redirect()->to('/')->with('success', 'User Berhasil di Hapus');
     }
-
-    // public function show($id)
-    // {
-    //     $user = $this->userModel->getUser($id);
-    //     $data = [
-    //         'title' => 'Profile',
-    //         'user' => $user,
-    //     ];
-
-    //     return view('profile', $data);
-    // }
 
     public function show($id){
         $user = UserModel::findOrFail($id);
